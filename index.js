@@ -82,8 +82,36 @@ const resetBase = function() {
     })
 }
 
+const sfxScore = function(rolleditems) {
+    let diamond = 0;
+            let wildcard = 0
+            rolleditems.forEach(function(item) {
+                if(item === "diamond") diamond++;
+                if(item === "wildcard") wildcard++;
+            })
+            if(diamond === 3) audioObj.threediamond.play();
+            if(diamond === 2) audioObj.twodiamond.play();
+            if(diamond === 1) audioObj.onediamond.play();
+            if(wildcard >= 1) audioObj.wildcard.play();
+            point = calculatePoints(rolleditems);
+            resetBase();
+
+            if(arrowClicked % 2 === 0) {
+                awayScore += point;
+                showScores[0].innerHTML = awayScore;
+            } else {
+                homeScore += point;
+                showScores[1].innerHTML = homeScore;
+            }
+            if(currInnings != Number(inningsNum.innerHTML)) {
+                showScores[1].innerHTML = homeScore;
+                showScores[0].innerHTML = awayScore;
+
+                inningsNum.innerHTML = currInnings;
+            }
+} 
+
 btnsContainer.addEventListener("click", function(e) {
-    let reelsAudio = PlaySound("reels");
     if(e.target.classList.contains("btn-base")) {
         spinCount = 0;
         let nextNo = e.target.classList[0].split("-")[2];
@@ -132,9 +160,7 @@ btnsContainer.addEventListener("click", function(e) {
                         return val === rolledItems[0] && !itemPoints[val];
                     })
                     let randNum = Math.floor(Math.random() * 1)
-
                     if(dups) {
-                        console.log(dups)
                         randNum && randomNum != 5 ? randomNum++ : randomNum--;
                     }
 
@@ -142,8 +168,6 @@ btnsContainer.addEventListener("click", function(e) {
                     rolledItems.slice(0,2).forEach(function(item) {
                         if(item === "wildcard") allWild.push(true)
                     })
-                    console.log(allWild)
-                    console.log(allWild.length >= 2)
 
                     if(allWild.length >= 2 || (rolledItems.includes("wildcard") && randomNum === 5)) {
                         randNum ? randomNum++ : randomNum--;
@@ -160,7 +184,6 @@ btnsContainer.addEventListener("click", function(e) {
 
                     if(allDiamond) {
                         let rarity = Math.floor(Math.random() * 100) + 1
-
                         rarity === 1 ? randomNum = randomNum : randomNum = Math.floor(Math.random() * 5) + 1
                     }
 
@@ -170,7 +193,7 @@ btnsContainer.addEventListener("click", function(e) {
                 if(randomNum === 6) {
                     numbToMultiply = 12
                 } else if(randomNum === 1) {
-                    numbToMultiply = 5
+                    numbToMultiply = 4
                 } else if(randomNum === 2) {
                     numbToMultiply = 9
                 } else {
@@ -183,47 +206,18 @@ btnsContainer.addEventListener("click", function(e) {
                 
                 let clickAudio = PlaySound("click once");
                 clickAudio.addEventListener("canplay", function() {
-                    wrapper.classList.remove("wrapper-" + (indx+1));
-                    wrapper.classList.add("end-" + (indx+1));
-                    clickAudio.play();
-                })
-
-                
+                    // reelsAudio.addEventListener("ended", function() {
+                        setTimeout(function() {
+                            wrapper.classList.remove("wrapper-" + (indx+1));
+                            wrapper.classList.add("end-" + (indx+1));
+                            clickAudio.play();
+                            if(indx === 2) sfxScore(rolledItems)
+                        }, 500*(indx+1))  
+                    // })
+                })    
             })
-            let diamond = 0;
-            let wildcard = 0
-            rolledItems.forEach(function(item) {
-                if(item === "diamond") diamond++;
-                if(item === "wildcard") wildcard++;
-            })
-            if(diamond === 3) audioObj.threediamond.play();
-            if(diamond === 2) audioObj.twodiamond.play();
-            if(diamond === 1) audioObj.onediamond.play();
-            if(wildcard >= 1) audioObj.wildcard.play();
-            console.log(rolledItems)
-            point = calculatePoints(rolledItems);
-            // basebtns.forEach(function(btn, indx) {
-            //     if(!btn.classList.contains("btn-base-1")) btn.disabled = true;
-            //     btn.querySelector("img").src = indx != 3 ? "images/base off brown background.png" : "images/spin off.png"
-            // })
-            resetBase();
 
-            if(arrowClicked % 2 === 0) {
-                awayScore += point;
-                showScores[0].innerHTML = awayScore;
-            } else {
-                homeScore += point;
-                showScores[1].innerHTML = homeScore;
-            }
-
-            if(currInnings != Number(inningsNum.innerHTML)) {
-                showScores[1].innerHTML = homeScore;
-                showScores[0].innerHTML = awayScore;
-
-                inningsNum.innerHTML = currInnings;
-            }
-
-        }, 4300)
+        }, 4100)
                 })
             }
         }
