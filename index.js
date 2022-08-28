@@ -151,8 +151,7 @@ btnsContainer.addEventListener("click", function(e) {
             wrappers.forEach(function(wrapper, indx) {
 
                 let propName = "--end-pos-"+ (indx+1);
-                // let randomNum = Math.floor(Math.random() * items.length) + 1;
-                let randomNum = 3;
+                let randomNum = Math.floor(Math.random() * items.length) + 1;
 
                 let numbToMultiply;
                 if(indx >= 1) {
