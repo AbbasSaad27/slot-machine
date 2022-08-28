@@ -151,7 +151,8 @@ btnsContainer.addEventListener("click", function(e) {
             wrappers.forEach(function(wrapper, indx) {
 
                 let propName = "--end-pos-"+ (indx+1);
-                let randomNum = Math.floor(Math.random() * items.length) + 1;
+                // let randomNum = Math.floor(Math.random() * items.length) + 1;
+                let randomNum = 3;
 
                 let numbToMultiply;
                 if(indx >= 1) {
@@ -194,8 +195,14 @@ btnsContainer.addEventListener("click", function(e) {
                     numbToMultiply = 12
                 } else if(randomNum === 1) {
                     numbToMultiply = 4
+                } else if (randomNum === 4) {
+                    numbToMultiply = 11.2
                 } else if(randomNum === 2) {
                     numbToMultiply = 9
+                } else if (randomNum === 3) {
+                    numbToMultiply = 10.2
+                } else if(randomNum === 5) {
+                    numbToMultiply = 11.5
                 } else {
                     numbToMultiply = 11
                 }
