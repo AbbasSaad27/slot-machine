@@ -25,7 +25,8 @@ let audioObj = {
     threediamond: new Audio("./music/three diamonds.mp3"),
     wildcard: new Audio("./music/wild card.mp3"),
     touchBase: new Audio("./music/touch base.mp3"),
-    reels: new Audio("./music/reels.mp3")
+    reels: new Audio("./music/reels.mp3"),
+    diamondAppear: new Audio("./music/diamond appear.mp3")
 }
 
 let btnclicked = [];
@@ -92,7 +93,7 @@ const sfxScore = function(rolleditems) {
             if(diamond === 3) audioObj.threediamond.play();
             if(diamond === 2) audioObj.twodiamond.play();
             if(diamond === 1) audioObj.onediamond.play();
-            if(wildcard >= 1) audioObj.wildcard.play();
+            // if(wildcard >= 1) audioObj.wildcard.play();
             point = calculatePoints(rolleditems);
             resetBase();
 
@@ -216,6 +217,8 @@ btnsContainer.addEventListener("click", function(e) {
                         setTimeout(function() {
                             wrapper.classList.remove("wrapper-" + (indx+1));
                             wrapper.classList.add("end-" + (indx+1));
+                            if(rolledItems[indx] === "wildcard") audioObj.wildcard.play();
+                            if(rolledItems[indx] === "diamond") audioObj.diamondAppear.play();
                             clickAudio.play();
                             if(indx === 2) sfxScore(rolledItems)
                         }, 500*(indx+1))  
