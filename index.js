@@ -218,7 +218,7 @@ btnsContainer.addEventListener("click", function(e) {
                             wrapper.classList.remove("wrapper-" + (indx+1));
                             wrapper.classList.add("end-" + (indx+1));
                             if(rolledItems[indx] === "wildcard") audioObj.wildcard.play();
-                            if(rolledItems[indx] === "diamond") audioObj.diamondAppear.play();
+                            if(rolledItems[indx] === "diamond") audioObj.diamondAppear.cloneNode(true).play();
                             clickAudio.play();
                             if(indx === 2) sfxScore(rolledItems)
                         }, 500*(indx+1))  
