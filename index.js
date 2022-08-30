@@ -25,7 +25,6 @@ let audioObj = {
     threediamond: new Audio("./music/three diamonds.mp3"),
     wildcard: new Audio("./music/wild card.mp3"),
     touchBase: new Audio("./music/touch base.mp3"),
-    reels: new Audio("./music/reels.mp3"),
     diamondAppear: new Audio("./music/diamond appear.mp3")
 }
 
@@ -85,31 +84,30 @@ const resetBase = function() {
 
 const sfxScore = function(rolleditems) {
     let diamond = 0;
-            let wildcard = 0
-            rolleditems.forEach(function(item) {
-                if(item === "diamond") diamond++;
-                if(item === "wildcard") wildcard++;
-            })
-            if(diamond === 3) audioObj.threediamond.play();
-            if(diamond === 2) audioObj.twodiamond.play();
-            if(diamond === 1) audioObj.onediamond.play();
-            // if(wildcard >= 1) audioObj.wildcard.play();
-            point = calculatePoints(rolleditems);
-            resetBase();
+    let wildcard = 0
+    rolleditems.forEach(function(item) {
+        if(item === "diamond") diamond++;
+        if(item === "wildcard") wildcard++;
+    })
+    if(diamond === 3) audioObj.threediamond.play();
+    if(diamond === 2) audioObj.twodiamond.play();
+    if(diamond === 1) audioObj.onediamond.play();
+    point = calculatePoints(rolleditems);
+    resetBase();
 
-            if(arrowClicked % 2 === 0) {
-                awayScore += point;
-                showScores[0].innerHTML = awayScore;
-            } else {
-                homeScore += point;
-                showScores[1].innerHTML = homeScore;
-            }
-            if(currInnings != Number(inningsNum.innerHTML)) {
-                showScores[1].innerHTML = homeScore;
-                showScores[0].innerHTML = awayScore;
+    if(arrowClicked % 2 === 0) {
+        awayScore += point;
+        showScores[0].innerHTML = awayScore;
+    } else {
+        homeScore += point;
+        showScores[1].innerHTML = homeScore;
+    }
+    if(currInnings != Number(inningsNum.innerHTML)) {
+        showScores[1].innerHTML = homeScore;
+        showScores[0].innerHTML = awayScore;
 
-                inningsNum.innerHTML = currInnings;
-            }
+        inningsNum.innerHTML = currInnings;
+    }
 } 
 
 btnsContainer.addEventListener("click", function(e) {
@@ -127,11 +125,9 @@ btnsContainer.addEventListener("click", function(e) {
                     img.src = "images/base on brown background.png";
                     touchBase.play()
                })
-                // PlaySound(audioObj.touchBase);
             }
         } else {
             if(!img.src.includes("gif")) {
-                // audioObj.reels.play();
                 let reelsAudio = PlaySound("reels 02")
                 reelsAudio.addEventListener("canplaythrough", function() {              
                     img.src = "images/spinflashing.gif"
@@ -174,10 +170,6 @@ btnsContainer.addEventListener("click", function(e) {
                         randNum ? randomNum++ : randomNum--;
                         rolledItems.pop();
                     }
-                    
-                    // rolledItems.forEach(function(item) {
-                    //     if(item === "wildcard") allWild.push(true)
-                    // })
 
                     let allDiamond = rolledItems.every(function(val) {
                         return val === "diamond"
